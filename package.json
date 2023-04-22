@@ -1,0 +1,12 @@
+{
+  "name": "add-waternark-app",
+  "version": "1.0.0",
+  "description": "app adding watermark to image",
+  "main": "app.js",
+  "repository": "git@github.com:ewaolczak/add-watermark-app.git",
+  "author": "Ewa Olczak <ewa.olczak@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jimp": "0.6.4"
+  }
+}
