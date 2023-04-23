@@ -49,7 +49,7 @@ const startApp = async () => {
   if (!answer.start) process.exit();
 
   // ask about input file and watermark type
-  const options = await inquirer.createPromptModule([
+  const options = await inquirer.prompt([
     {
       name: 'inputImage',
       type: 'input',
@@ -84,7 +84,7 @@ const startApp = async () => {
 
   // Ask about watermark file
   else {
-    const image = await inquirer.createPromptModule([
+    const image = await inquirer.prompt([
       {
         name: 'filename',
         type: 'input',
@@ -92,7 +92,7 @@ const startApp = async () => {
         default: 'logo.png'
       }
     ]);
-    options.watermarkImage - image.filename;
+    options.watermarkImage = image.filename;
     // Run addImageWatermarkToImage function
     addImageWatermarkToImage(
       './img/' + options.inputImage,
