@@ -9,6 +9,7 @@ const addTextWatermarkToImage = async function (inputFile, outputFile, text) {
     alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
     alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
   };
+
   image.print(font, 0, 0, textData, image.getWidth(), image.getHeight());
   await image.quality(100).writeAsync(outputFile);
 };
@@ -22,6 +23,7 @@ const addImageWatermarkToImage = async function (
   const watermark = await Jimp.read(watermarkFile);
   const x = image.getWidth() / 2 - watermark.getWidth() / 2;
   const y = image.getHeight() / 2 - watermark.getHeight() / 2;
+
   image.composite(watermark, x, y, {
     mode: Jimp.BLEND_SOURCE_OVER,
     opacitySource: 0.5
@@ -53,7 +55,7 @@ const startApp = async () => {
     {
       name: 'inputImage',
       type: 'input',
-      message: 'What file do you want to mark',
+      message: 'What file do you want to mark?',
       default: 'test.jpg'
     },
     {
@@ -63,42 +65,34 @@ const startApp = async () => {
     }
   ]);
 
-  // Ask about watermark text
   if (options.watermarkType === 'Text watermark') {
     const text = await inquirer.prompt([
       {
         name: 'value',
         type: 'input',
-        message: 'Type watermark text:'
+        message: 'Type your watermark text:'
       }
     ]);
     options.watermarkText = text.value;
-    // Run addTextWatermarkToImage function
     addTextWatermarkToImage(
       './img/' + options.inputImage,
-      './img/' +
-        prepareOutputFilename(options.inputImage) +
-        options.watermarkText
+      './img/' + prepareOutputFilename(options.inputImage),
+      options.watermarkText
     );
-  }
-
-  // Ask about watermark file
-  else {
+  } else {
     const image = await inquirer.prompt([
       {
         name: 'filename',
         type: 'input',
-        message: 'Type your watermak name:',
+        message: 'Type your watermark name:',
         default: 'logo.png'
       }
     ]);
     options.watermarkImage = image.filename;
-    // Run addImageWatermarkToImage function
     addImageWatermarkToImage(
       './img/' + options.inputImage,
-      './img/' +
-        prepareOutputFilename(options.inputImage) +
-        options.watermarkImage
+      './img/' + prepareOutputFilename(options.inputImage),
+      './img/' + options.watermarkImage
     );
   }
 };
