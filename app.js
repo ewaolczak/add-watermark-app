@@ -36,7 +36,7 @@ const prepareOutputFilename = (filename) => {
 
 const startApp = async () => {
   // Ask if user is ready
-  const answer = await inquirer.createPromptModule([
+  const answer = await inquirer.prompt([
     {
       name: 'start',
       message:
@@ -49,12 +49,12 @@ const startApp = async () => {
   if (!answer.start) process.exit();
 
   // ask about input file and watermark type
-  const option = await inquirer.createPromptModule([
+  const options = await inquirer.createPromptModule([
     {
       name: 'inputImage',
       type: 'input',
       message: 'What file do you want to mark',
-      defautl: 'test.jpg'
+      default: 'test.jpg'
     },
     {
       name: 'watermarkType',
@@ -65,7 +65,7 @@ const startApp = async () => {
 
   // Ask about watermark text
   if (options.watermarkType === 'Text watermark') {
-    const text = await inquirer.createPromptModule([
+    const text = await inquirer.prompt([
       {
         name: 'value',
         type: 'input',
@@ -76,7 +76,9 @@ const startApp = async () => {
     // Run addTextWatermarkToImage function
     addTextWatermarkToImage(
       './img/' + options.inputImage,
-      prepareOutputFilename(options.inputImage) + options.watermarkText
+      './img/' +
+        prepareOutputFilename(options.inputImage) +
+        options.watermarkText
     );
   }
 
@@ -94,7 +96,9 @@ const startApp = async () => {
     // Run addImageWatermarkToImage function
     addImageWatermarkToImage(
       './img/' + options.inputImage,
-      prepareOutputFilename(options.inputImage) + options.watermarkImage
+      './img/' +
+        prepareOutputFilename(options.inputImage) +
+        options.watermarkImage
     );
   }
 };
